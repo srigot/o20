@@ -10,6 +10,9 @@ import android.widget.TextView;
 import com.rigot.macavealpha.metier.GestionCave;
 import com.rigot.macavealpha.metier.Vin;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 public class DetailVinActivity extends Activity {
 
@@ -19,14 +22,14 @@ public class DetailVinActivity extends Activity {
     public static final String ID = "com.rigot.macavealpha.IDENTIFIANT";
 
     private static final int ID_UNKNOWN = -1;
-
+    @Bind(R.id.tvNom)
+    TextView tvNom;
+    @Bind(R.id.tvAnnee)
+    TextView tvAnnee;
+    @Bind(R.id.tvCouleur)
+    TextView tvCouleur;
     private Vin vin = null;
-
     private int idVin = ID_UNKNOWN;
-
-    private TextView tvNom = null;
-    private TextView tvAnnee = null;
-    private TextView tvCouleur = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +42,7 @@ public class DetailVinActivity extends Activity {
             vin = GestionCave.getInstance().getVinPosition(idVin);
         }
 
-        tvNom = (TextView) findViewById(R.id.tvNom);
-        tvAnnee = (TextView) findViewById(R.id.tvAnnee);
-        tvCouleur = (TextView) findViewById(R.id.tvCouleur);
+        ButterKnife.bind(this);
 
         chargerVin();
     }

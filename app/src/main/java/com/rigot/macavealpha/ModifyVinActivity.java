@@ -17,26 +17,37 @@ import com.rigot.macavealpha.ref.RefCategorie;
 import com.rigot.macavealpha.ref.RefCouleur;
 import com.rigot.macavealpha.util.StringUtil;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 public class ModifyVinActivity extends Activity {
     public static final String ID = "com.rigot.macavealpha.IDENTIFIANT";
 
     private static final int ID_UNKNOWN = -1;
-
+    @Bind(R.id.etNom)
+    EditText etNom;
+    @Bind(R.id.etAnnee)
+    EditText etAnnee;
+    @Bind(R.id.spAppellation)
+    Spinner spAppellation;
+    @Bind(R.id.spCategorie)
+    Spinner spCategorie;
+    @Bind(R.id.spCouleur)
+    Spinner spCouleur;
+    @Bind(R.id.rbNote)
+    RatingBar rbNote;
+    @Bind(R.id.etDebutBoire)
+    EditText etDebutBoire;
+    @Bind(R.id.etFinBoire)
+    EditText etFinBoire;
+    @Bind(R.id.etDebutTemp)
+    EditText etDebutTemp;
+    @Bind(R.id.etFinTemp)
+    EditText etFinTemp;
+    @Bind(R.id.etDegre)
+    EditText etDegre;
     private Vin vin = null;
-
-    private EditText etNom = null;
-    private EditText etAnnee = null;
-    private Spinner spAppellation = null;
-    private Spinner spCategorie = null;
-    private Spinner spCouleur = null;
-    private RatingBar rbNote = null;
-    private EditText etDebutBoire = null;
-    private EditText etFinBoire = null;
-    private EditText etDebutTemp = null;
-    private EditText etFinTemp = null;
-    private EditText etDegre = null;
-
     private ArrayAdapter<RefAppellation> appellationAdapter = null;
     private ArrayAdapter<RefCategorie> categorieAdapter = null;
     private ArrayAdapter<RefCouleur> couleurAdapter = null;
@@ -52,17 +63,7 @@ public class ModifyVinActivity extends Activity {
             vin = GestionCave.getInstance().getVinPosition(idVin);
         }
 
-        etNom = (EditText) findViewById(R.id.etNom);
-        etAnnee = (EditText) findViewById(R.id.etAnnee);
-        spAppellation = (Spinner) findViewById(R.id.spAppellation);
-        spCategorie = (Spinner) findViewById(R.id.spCategorie);
-        spCouleur = (Spinner) findViewById(R.id.spCouleur);
-        rbNote = (RatingBar) findViewById(R.id.rbNote);
-        etDebutBoire = (EditText) findViewById(R.id.etDebutBoire);
-        etFinBoire = (EditText) findViewById(R.id.etFinBoire);
-        etDebutTemp = (EditText) findViewById(R.id.etDebutTemp);
-        etFinTemp = (EditText) findViewById(R.id.etFinTemp);
-        etDegre = (EditText) findViewById(R.id.etDegre);
+        ButterKnife.bind(this);
 
         init_spinnerAppellation();
         init_spinnerCategorie();
@@ -72,21 +73,21 @@ public class ModifyVinActivity extends Activity {
     }
 
     private void init_spinnerCouleur() {
-        couleurAdapter = new ArrayAdapter<RefCouleur>(this,
+        couleurAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, RefCouleur.values());
         spCouleur.setAdapter(couleurAdapter);
 
     }
 
     private void init_spinnerCategorie() {
-        categorieAdapter = new ArrayAdapter<RefCategorie>(this,
+        categorieAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, RefCategorie.values());
         spCategorie.setAdapter(categorieAdapter);
 
     }
 
     private void init_spinnerAppellation() {
-        appellationAdapter = new ArrayAdapter<RefAppellation>(this,
+        appellationAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, RefAppellation.values());
         spAppellation.setAdapter(appellationAdapter);
     }
