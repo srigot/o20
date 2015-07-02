@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="vinRouge">#ff881412</color>
+    <color name="vinBlanc">#fff7fd90</color>
+    <color name="vinRose">#ffac1967</color>
+    <color name="primary">#ffaf1513</color>
+    <color name="primaryDark">#ff881412</color>
+    <color name="accent">#ff9a685f</color>
+    <!--   <color name="textPrimary">#ffffffff</color> -->
+    <color name="fab_color_1">#ffe4201e</color>
+    <color name="fab_color_1_muted">#ffaf1513</color>
+
+</resources>

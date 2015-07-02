@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">MaCaveAlpha</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_liste">Mes vins</string>
+    <string name="title_visu">Visualisation</string>
+    <string name="title_parametres">Paramètres</string>
+    <string name="title_activity_detail_vin">DetailVinActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="modifier">Modifier</string>
+    <string name="title_activity_modify_vin">ModifyVinActivity</string>
+    <string name="nom">Nom</string>
+    <string name="appellation">Appellation</string>
+    <string name="annee">Année</string>
+    <string name="ok">OK</string>
+    <string name="ajouter">+</string>
+    <string name="chaine_et">et</string>
+    <string name="boire">Boire</string>
+    <string name="note">Note</string>
+    <string name="service">Service</string>
+    <string name="degreC">°C</string>
+    <string name="degre">Degré</string>
+</resources>
