@@ -17,6 +17,9 @@ import android.view.ViewGroup;
 
 import com.rigot.macavealpha.metier.GestionCave;
 import com.rigot.macavealpha.ui.BoutonActionFlottant;
+import com.rigot.macavealpha.util.RecyclerItemClickListener;
+
+import butterknife.OnClick;
 
 
 public class MainActivity extends Activity
@@ -137,6 +140,13 @@ public class MainActivity extends Activity
             return fragment;
         }
 
+        @OnClick(R.id.fabAjouter)
+        public void onClicFabAjouter() {
+            // Lancer l'activite "Detail Vin"
+            Intent intent = new Intent(getActivity(), ModifyVinActivity.class);
+            startActivity(intent);
+        }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -157,6 +167,15 @@ public class MainActivity extends Activity
                 // specify an adapter (see also next example)
                 mAdapter = new VinAdapter(GestionCave.getInstance().getListeVins());
                 mRecyclerView.setAdapter(mAdapter);
+                mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        // Ouvrir le detail du vin sélectionne
+                        Intent intent = new Intent(getActivity(), DetailVinActivity.class);
+                        intent.putExtra(DetailVinActivity.ID, position);
+                        startActivity(intent);
+                    }
+                }));
 
                 BoutonActionFlottant bt = (BoutonActionFlottant) rootView.findViewById(R.id.fabAjouter);
                 bt.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +189,7 @@ public class MainActivity extends Activity
 
             }
         }
+
 
         /*
                 private void initialiserListeVins(View rootView) {
