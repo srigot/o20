@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.rigot.macavealpha.metier.Vin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,14 @@ public class VinAdapter extends RecyclerView.Adapter<VinAdapter.ViewHolder> {
     private List<Vin> liste;
 
     public VinAdapter(List<Vin> liste) {
+        if (liste == null) {
+            this.liste = new ArrayList<Vin>();
+        } else {
+            this.liste = liste;
+        }
+    }
+
+    public void setListe(List<Vin> liste) {
         this.liste = liste;
     }
 
@@ -46,8 +55,7 @@ public class VinAdapter extends RecyclerView.Adapter<VinAdapter.ViewHolder> {
                 viewHolder.annee.setText(v.getAnnee().toString());
             }
             if (v.getCouleur() != null) {
-                viewHolder.couleur.setBackgroundColor(v.getCouleur().getCouleur());
-                viewHolder.couleur.invalidate();
+                viewHolder.couleur.setBackgroundResource(v.getCouleur().getCouleur());
             }
         }
     }

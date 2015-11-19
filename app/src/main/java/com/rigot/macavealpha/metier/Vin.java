@@ -1,16 +1,17 @@
 package com.rigot.macavealpha.metier;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rigot.macavealpha.ref.RefAppellation;
 import com.rigot.macavealpha.ref.RefCategorie;
 import com.rigot.macavealpha.ref.RefCouleur;
-
-import java.util.ArrayList;
 
 /**
  * Created by Seb on 08/11/13.
  */
 public class Vin {
-    private ArrayList<Bouteille> listeBouteilles = new ArrayList<Bouteille>();
+    // private static final long serialVersionUID = 7101726081661909729L;
+
+//    private ArrayList<Bouteille> listeBouteilles = new ArrayList<Bouteille>();
 
     private Long id;
     private String nom;
@@ -40,8 +41,10 @@ public class Vin {
 
     }
 
+    @JsonIgnore
     public Integer getNombreBouteilles() {
-        return listeBouteilles.size();
+        return 0;
+//        return listeBouteilles.size();
     }
 
     public Integer getAnnee() {

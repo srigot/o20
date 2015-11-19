@@ -1,14 +1,8 @@
 package com.rigot.macavealpha.metier;
 
-import android.content.Context;
+import com.rigot.macavealpha.ws.VinController;
+import com.rigot.macavealpha.ws.WebServiceException;
 
-import com.rigot.macavealpha.dao.GestionCaveBdd;
-
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 //import com.rigot.macavealpha.parser.CaveParser;
@@ -19,12 +13,12 @@ import java.util.List;
 public class GestionCave {
     private static GestionCave ourInstance = new GestionCave();
 
-    private GestionCaveBdd bd = null;
+//    private GestionCaveBdd bd = null;
 
     /**
      * Liste des vins
      */
-    private List<Vin> liste = new ArrayList<Vin>();
+    private Cave cave = null;
 
     private GestionCave() {
     }
@@ -39,41 +33,34 @@ public class GestionCave {
     }
 
     public List<Vin> getListeVins() {
-        return liste;
+        return (cave == null) ? null : cave.getListeVin();
     }
 
-    public void AjouterVin(Vin v) {
+    public void AjouterVin(Vin v) throws WebServiceException {
         // Enregistrer le vin
-        bd.AjouterVin(v);
-        liste.add(v);
+        VinController vinController = new VinController();
+        vinController.createVin(v);
+        cave.addVin(v);
+        vinController.updateCave(cave);
     }
 
     public void ModifierVin(Vin v) {
-        // Enregistrer le vin
-        bd.ModifierVin(v);
+        // TODO Enregistrer le vin
+        // bd.ModifierVin(v);
     }
 
-    /**
-     * Charger la liste des vins depuis un flux XML
-     *
-     * @param in Flux XML
-     * @throws java.io.IOException                   Exception sur la lecture du flux
-     * @throws org.xmlpull.v1.XmlPullParserException Format XML invalide
-     */
-    public void ChargerCave(InputStream in) throws IOException, XmlPullParserException {
-/*    	CaveParser parser = new CaveParser() ;
-        liste = parser.parse(in);*/
-    }
-
-    public void ChargerCave(Context context) {
-        bd = new GestionCaveBdd(context);
-        liste = bd.ChargerCave();
+    public void ChargerCave() {
+//        VinController vinController = new VinController();
+        VinController vinController = new VinController();
+        cave = vinController.getAllVins();
     }
 
     public Vin getVinPosition(int idVin) {
         Vin retour = null;
-        if (idVin >= 0 && idVin < liste.size()) {
-            retour = liste.get(idVin);
+        if (cave != null) {
+            if (idVin >= 0 && idVin < cave.getListeVin().size()) {
+                retour = cave.getListeVin().get(idVin);
+            }
         }
         return retour;
     }

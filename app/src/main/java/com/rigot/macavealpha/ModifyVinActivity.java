@@ -1,14 +1,18 @@
 package com.rigot.macavealpha;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.rigot.macavealpha.metier.GestionCave;
 import com.rigot.macavealpha.metier.Vin;
@@ -16,9 +20,11 @@ import com.rigot.macavealpha.ref.RefAppellation;
 import com.rigot.macavealpha.ref.RefCategorie;
 import com.rigot.macavealpha.ref.RefCouleur;
 import com.rigot.macavealpha.util.StringUtil;
+import com.rigot.macavealpha.ws.WebServiceException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class ModifyVinActivity extends Activity {
@@ -115,30 +121,10 @@ public class ModifyVinActivity extends Activity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_modify_vin, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        if (id == R.id.ok) {
-            validerDetail();
-        }
-
-        return super.onOptionsItemSelected(item);
+    @OnClick(R.id.fabValiderModifier)
+    public void onClickFabAjouter(View v) {
+        validerDetail();
     }
 
     public void validerDetail() {
@@ -148,12 +134,15 @@ public class ModifyVinActivity extends Activity {
 
         remplirChamps();
 
-        if (vin.getId() == null) {
-            GestionCave.getInstance().AjouterVin(vin);
+        // Initialisation de la cave
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            new ValiderTask().execute();
         } else {
-            GestionCave.getInstance().ModifierVin(vin);
+            afficherMessage("No network connection available.");
         }
-        finish();
     }
 
     private void remplirChamps() {
@@ -175,4 +164,39 @@ public class ModifyVinActivity extends Activity {
         vin.setDebutTemp(StringUtil.StringToInteger(etDebutTemp.getText().toString()));
         vin.setFinTemp(StringUtil.StringToInteger(etFinTemp.getText().toString()));
     }
+
+    public void afficherMessage(String message) {
+        Toast.makeText(ModifyVinActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private class ValiderTask extends AsyncTask<Vin, Void, String> {
+
+        @Override
+        protected String doInBackground(Vin... params) {
+            String retour = null;
+            try {
+                if (vin.getId() == null) {
+                    GestionCave.getInstance().AjouterVin(vin);
+                } else {
+                    GestionCave.getInstance().ModifierVin(vin);
+                }
+            } catch (WebServiceException e) {
+                retour = e.getMessage();
+                if (retour == null) {
+                    retour = "Erreur inconnue";
+                }
+            }
+            return retour;
+        }
+
+        @Override
+        protected void onPostExecute(String msg) {
+            if (msg == null) {
+                finish();
+            } else {
+                afficherMessage(msg);
+            }
+        }
+    }
+
 }

@@ -1,8 +1,14 @@
 package com.rigot.macavealpha;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -22,6 +28,10 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    @Bind(R.id.content)
+    View content;
+
+    ListeVinFragment listeVinFragment;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +42,36 @@ public class MainActivity extends AppCompatActivity {
         initToolBar();
         setupDrawerLayout();
 
+        listeVinFragment = new ListeVinFragment();
         chargerFragmentListe();
+
         // Initialisation de la cave
-        GestionCave.getInstance().ChargerCave(this);
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            new ChargementCaveTask().execute();
+        } else {
+            afficherMessage("No network connection available.");
+        }
     }
 
     /**
      * Initialisation de la barre de navigation
      */
     private void setupDrawerLayout() {
-        // TODO Ajouter la prise en compte du choix dans le menu de navigation
+        NavigationView nv = (NavigationView) findViewById(R.id.navigation);
+        nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                afficherMessage(menuItem.getTitle() + " pressed");
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+                return true;
+            }
+        });
+
     }
 
     private void initToolBar() {
@@ -56,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private void chargerFragmentListe() {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, new ListeVinFragment())
+                .replace(R.id.container, listeVinFragment)
                 .commit();
     }
 
@@ -78,4 +108,22 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void afficherMessage(String message) {
+        Snackbar.make(content, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    public class ChargementCaveTask extends AsyncTask<String, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            GestionCave.getInstance().ChargerCave();
+            return GestionCave.getInstance().getListeVins().size();
+        }
+
+        @Override
+        protected void onPostExecute(Integer aVoid) {
+            afficherMessage("Nombre de vins = " + aVoid);
+            listeVinFragment.updateListe(GestionCave.getInstance().getListeVins());
+        }
+    }
 }

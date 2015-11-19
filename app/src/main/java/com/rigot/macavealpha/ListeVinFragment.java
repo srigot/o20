@@ -11,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rigot.macavealpha.metier.GestionCave;
+import com.rigot.macavealpha.metier.Vin;
 import com.rigot.macavealpha.util.RecyclerItemClickListener;
+
+import java.util.List;
 
 /**
  * Auteur : Seb
@@ -53,6 +56,11 @@ public class ListeVinFragment extends Fragment {
             }));
 
         }
+    }
+
+    public void updateListe(List<Vin> liste) {
+        ((VinAdapter) mAdapter).setListe(liste);
+        mAdapter.notifyDataSetChanged();
     }
 
 }
