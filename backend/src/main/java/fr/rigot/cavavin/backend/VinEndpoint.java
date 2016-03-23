@@ -5,7 +5,6 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.BadRequestException;
 import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.cmd.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,6 @@ public class VinEndpoint {
 
     /**
      * Lecture de tous les vins en base
-     *
      * @return la liste des vins
      */
     @ApiMethod(name = "getAll",
@@ -46,10 +44,13 @@ public class VinEndpoint {
         final List<Vin> listeRetour = new ArrayList<Vin>();
 
         // Cette methode retourne la liste des vins presents en base
-        final Query<Vin> vins = ofy().load().type(Vin.class).chunkAll();
-        for (Vin v : vins) {
-            listeRetour.add(v);
-        }
+//        final Query<Vin> vins = ofy().load().type(Vin.class).chunkAll();
+//        for (Vin v : vins) {
+//            listeRetour.add(v);
+//        }
+        Vin vin = new Vin();
+        vin.setNom("Test nom");
+        listeRetour.add(vin);
         return listeRetour;
     }
 

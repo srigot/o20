@@ -2,11 +2,12 @@
 <html>
 <head>
     <title>Hello, Endpoints!</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet"
-          href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+          href="css/bootstrap-theme.min.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/gestionTableau.js"></script>
 </head>
 <body role="document" style="padding-top: 70px;">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -50,37 +51,29 @@
     <div class="jumbotron">
         <div class="row">
             <div class="col-lg-12">
-                <table class="table">
-                    <tr>
-                        <td>Col1</td>
-                        <td>Col2</td>
-                    </tr>
-                </table>
+                <form>
+                    <div class="input-group">
+                        <input type="text" class="form-control input-lg" placeholder="Nom du vin"
+                               id="nameInput"/>
+                          <span class="input-group-btn">
+                             <button class="btn btn-default btn-primary btn-group btn-lg"
+                                     type="submit" id="helloButton">Ajouter
+                             </button>
+                          </span>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <h1>Hello, Endpoints!</h1>
-
-                <p>Enter your name and press the button below to call your Google Cloud Endpoints
-                    API.</p>
-
-                <form>
-                    <div class="input-group">
-                        <input type="text" class="form-control input-lg" placeholder="Name"
-                               id="nameInput"/>
-                          <span class="input-group-btn">
-                             <button class="btn btn-default btn-primary btn-group btn-lg"
-                                     type="submit" id="helloButton">Say "Hello" &raquo;</button>
-                          </span>
-                    </div>
-                </form>
-                <br/>
-
-                <p>If you need step-by-step instructions for connecting your Android application to
-                    this backend module, see <a
-                            href="https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpoints">"App
-                        Engine Java Endpoints Module" template documentation</a>.</p>
+                <table class="table table-condensed" id="table_vins">
+                    <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Ann&eacute;e</th>
+                    </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
@@ -98,7 +91,10 @@
 
             if (!response.error) {
               outputAlertDiv.className = 'alert alert-success';
-              outputAlertDiv.innerHTML = '<h2>' + response.result.data + '</h2>';
+              outputAlertDiv.innerHTML = '<h2>Nb = ' + response.result.items.length + '</h2>';
+              jQuery.each( response.result.items, function(i, field) {
+                ajouterTableau(field) ;
+              }) ;
             }
             else if (response.error) {
               outputAlertDiv.className = 'alert alert-danger';
@@ -120,10 +116,29 @@
             // We're probably running against the DevAppServer
             apiRoot = 'http://' + window.location.host + '/_ah/api';
       }
+
       var callback = function() {
         enableClick();
       }
-      gapi.client.load(apiName, apiVersion, callback, apiRoot);
+      function chargerListe() {
+        var request = gapi.client.vins.getAll() ;
+        request.then(function(response) {
+              var outputAlertDiv = document.getElementById('outputAlert');
+              outputAlertDiv.style.visibility = 'visible';
+              outputAlertDiv.className = 'alert alert-success';
+              outputAlertDiv.innerHTML = '<h2>Nb = ' + response.result.items.length + '</h2>';
+              jQuery.each( response.result.items, function(i, field) {
+                ajouterTableau(field) ;
+              }) ;
+        }, function (reason) {
+              var outputAlertDiv = document.getElementById('outputAlert');
+              outputAlertDiv.style.visibility = 'visible';
+              outputAlertDiv.className = 'alert alert-danger';
+              outputAlertDiv.innerHTML = '<b>Error Code: </b>' + response.error.code + ' [' + response.error.message + ']';
+        }) ;
+      }
+//      gapi.client.load(apiName, apiVersion, callback, apiRoot);
+      gapi.client.load(apiName, apiVersion).then(chargerListe);
     }
 
 </script>
