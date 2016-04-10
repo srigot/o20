@@ -5,6 +5,7 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.BadRequestException;
 import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.cmd.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,8 @@ public class VinEndpoint {
     }
 
     /**
-     * Lecture de tous les vins en base
+     * Cette API permet de recuperer tous les vins de la base de données
+     *
      * @return la liste des vins
      */
     @ApiMethod(name = "getAll",
@@ -44,16 +46,18 @@ public class VinEndpoint {
         final List<Vin> listeRetour = new ArrayList<Vin>();
 
         // Cette methode retourne la liste des vins presents en base
-//        final Query<Vin> vins = ofy().load().type(Vin.class).chunkAll();
-//        for (Vin v : vins) {
-//            listeRetour.add(v);
-//        }
-        Vin vin = new Vin();
-        vin.setNom("Test nom");
-        listeRetour.add(vin);
+        final Query<Vin> vins = ofy().load().type(Vin.class).chunkAll();
+        for (Vin v : vins) {
+            listeRetour.add(v);
+        }
         return listeRetour;
     }
 
+    /**
+     * Cette méthode permet de modifier un vin déjà enregistrer dans la base de données
+     *
+     * @param v Le vin à modifier
+     */
     @ApiMethod(name = "modifyVin",
             path = "vin",
             httpMethod = ApiMethod.HttpMethod.PUT)
@@ -61,6 +65,11 @@ public class VinEndpoint {
         ofy().save().entity(v).now();
     }
 
+    /**
+     * Cette méthode permet d'ajouter un nouveau vin dans la base de données
+     *
+     * @param v Le vin à ajouter
+     */
     @ApiMethod(name = "addVin",
             path = "vin",
             httpMethod = ApiMethod.HttpMethod.POST)
@@ -68,6 +77,12 @@ public class VinEndpoint {
         ofy().save().entity(v).now();
     }
 
+    /**
+     * Cette méthode permet de supprimer un vin de la base de données
+     *
+     * @param v Le vin à supprimer
+     * @throws BadRequestException Exception levée si le vin n'a pas pu etre supprimé
+     */
     @ApiMethod(name = "supprimerVin",
             path = "vin",
             httpMethod = ApiMethod.HttpMethod.DELETE)
@@ -78,6 +93,11 @@ public class VinEndpoint {
         ofy().delete().entity(v).now();
     }
 
+    /**
+     * Cette API permet de modifier un emplacement en base de données
+     *
+     * @param emplacement Emplacement à modifier
+     */
     @ApiMethod(name = "modifierEmplacement",
             path = "emplacement",
             httpMethod = ApiMethod.HttpMethod.DELETE)

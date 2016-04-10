@@ -1,152 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Hello, Endpoints!</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Test cave a vin</title>
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet"
-          href="css/bootstrap-theme.min.css">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"
+          integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="css/tether.min.css">
     <script src="js/gestionTableau.js"></script>
+    <script src="js/appelWS.js"></script>
 </head>
 <body role="document" style="padding-top: 70px;">
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Hello, Endpoints!</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b
-                            class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="https://developers.google.com/appengine/docs/java/">Google App
-                            Engine</a></li>
-                        <li><a href="https://developers.google.com/appengine/docs/java/endpoints/">Google
-                            Cloud Endpoints</a></li>
-                        <li>
-                            <a href="https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpoints">Connecting
-                                your Android application to this backend</a></li>
-                    </ul>
-                </li>
-                <li><a href="/_ah/api/explorer">Google Cloud Endpoints API Explorer</a></li>
-                <li><a href="https://console.developers.google.com">Google Developers Console</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
 
-<div class="container theme-showcase" role="main">
+<nav class="navbar navbar-fixed-top navbar-light bg-faded">
+    <a class="navbar-brand" href="#">Ma cave à vin</a>
+    <ul class="nav navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Pricing</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+        </li>
+    </ul>
+</nav>
+<div class="container" role="main">
     <!--
       Output from Endpoints API call.
     -->
     <div class="alert alert-success" style="visibility: collapse;" id="outputAlert"></div>
 
-    <!--
-      A form that takes a text value and submits it to the Endpoint,
-      access to the Endpoint is enabled once the client is loaded below.
-    -->
-    <div class="jumbotron">
-        <div class="row">
-            <div class="col-lg-12">
-                <form>
-                    <div class="input-group">
-                        <input type="text" class="form-control input-lg" placeholder="Nom du vin"
-                               id="nameInput"/>
-                          <span class="input-group-btn">
-                             <button class="btn btn-default btn-primary btn-group btn-lg"
-                                     type="submit" id="helloButton">Ajouter
-                             </button>
-                          </span>
-                    </div>
-                </form>
-            </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-sm table-hover" id="table_vins">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Ann&eacute;e</th>
+                </tr>
+                </thead>
+            </table>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <table class="table table-condensed" id="table_vins">
-                    <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Ann&eacute;e</th>
-                    </tr>
-                    </thead>
-                </table>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <button class="btn btn-primary pull-right"
+                    type="button" id="addButton" data-toggle="modal" data-target="#myModal">Ajouter
+            </button>
+        </div>
+    </div>
+    <!-- Modal Saisie d'un vin -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ajouter un vin</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="row">
+                            <div class="col-lg-10 col-md-9">
+                                <!-- Text input-->
+                                <div class="form-group">
+                                    <input id="nom" name="nom" type="text" placeholder="Nom du vin"
+                                           class="form-control input-md" required>
+                                </div>
+
+                                <!-- Text input-->
+                                <div class="form-group">
+                                    <div>
+                                        <input id="annee" name="annee" type="number" max="4"
+                                               placeholder="Année" class="form-control input-md">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer
+                    </button>
+                    <button type="button" id="btnValiderAjout" class="btn btn-primary">Valider
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
-    // A function that attaches a "Say Hello" button click handler
-    function enableClick() {
-      document.getElementById('helloButton').onclick = function() {
-        var name = document.getElementById('nameInput').value;
-        gapi.client.vins.getAll().execute(
-          function(response) {
-            var outputAlertDiv = document.getElementById('outputAlert');
-            outputAlertDiv.style.visibility = 'visible';
 
-            if (!response.error) {
-              outputAlertDiv.className = 'alert alert-success';
-              outputAlertDiv.innerHTML = '<h2>Nb = ' + response.result.items.length + '</h2>';
-              jQuery.each( response.result.items, function(i, field) {
-                ajouterTableau(field) ;
-              }) ;
-            }
-            else if (response.error) {
-              outputAlertDiv.className = 'alert alert-danger';
-              outputAlertDiv.innerHTML = '<b>Error Code: </b>' + response.error.code + ' [' + response.error.message + ']';
-            }
-          }
-        );
-        return false;
-      }
-    }
-    // This is called initially
-    function init() {
-      var apiName = 'vins';
-      var apiVersion = 'v1';
-      var apiRoot = 'https://' + window.location.host + '/_ah/api';
-      if (window.location.hostname == 'localhost'
-          || window.location.hostname == '127.0.0.1'
-          || ((window.location.port != "") && (window.location.port > 1023))) {
-            // We're probably running against the DevAppServer
-            apiRoot = 'http://' + window.location.host + '/_ah/api';
-      }
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"
+        integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7"
+        crossorigin="anonymous"></script>
 
-      var callback = function() {
-        enableClick();
-      }
-      function chargerListe() {
-        var request = gapi.client.vins.getAll() ;
-        request.then(function(response) {
-              var outputAlertDiv = document.getElementById('outputAlert');
-              outputAlertDiv.style.visibility = 'visible';
-              outputAlertDiv.className = 'alert alert-success';
-              outputAlertDiv.innerHTML = '<h2>Nb = ' + response.result.items.length + '</h2>';
-              jQuery.each( response.result.items, function(i, field) {
-                ajouterTableau(field) ;
-              }) ;
-        }, function (reason) {
-              var outputAlertDiv = document.getElementById('outputAlert');
-              outputAlertDiv.style.visibility = 'visible';
-              outputAlertDiv.className = 'alert alert-danger';
-              outputAlertDiv.innerHTML = '<b>Error Code: </b>' + response.error.code + ' [' + response.error.message + ']';
-        }) ;
-      }
-//      gapi.client.load(apiName, apiVersion, callback, apiRoot);
-      gapi.client.load(apiName, apiVersion).then(chargerListe);
-    }
-
-</script>
-<!--
- Load the Google APIs Client Library for JavaScript
- More info here : https://developers.google.com/api-client-library/javascript/reference/referencedocs
--->
-
-<script src="https://apis.google.com/js/client.js?onload=init"></script>
+<script src="js/index.js"></script>
+<script src="https://apis.google.com/js/client.js?onload=initIndex"></script>
 </body>
 </html>
