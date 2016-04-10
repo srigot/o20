@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.rigot.cavavin.backend.vins.model.Vin;
+
 /**
  * Auteur : Seb
  * Date de creation : 05/11/2015
  */
-public class Cave implements Serializable {
+public class CaveTemp implements Serializable {
 
     /**
      * Serial ID Cave

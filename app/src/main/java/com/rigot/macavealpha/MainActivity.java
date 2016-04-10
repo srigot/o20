@@ -18,6 +18,8 @@ import android.view.View;
 
 import com.rigot.macavealpha.metier.GestionCave;
 
+import java.io.IOException;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -112,17 +114,23 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(content, message, Snackbar.LENGTH_LONG).show();
     }
 
-    public class ChargementCaveTask extends AsyncTask<String, Void, Integer> {
+    public class ChargementCaveTask extends AsyncTask<String, Void, String> {
 
         @Override
-        protected Integer doInBackground(String... params) {
-            GestionCave.getInstance().ChargerCave();
-            return GestionCave.getInstance().getListeVins().size();
+        protected String doInBackground(String... params) {
+            String msg;
+            try {
+                GestionCave.getInstance().ChargerCave();
+                msg = "Nombre de vins = " + GestionCave.getInstance().getListeVins().size();
+            } catch (IOException e) {
+                msg = "Erreur : " + e.getMessage();
+            }
+            return msg;
         }
 
         @Override
-        protected void onPostExecute(Integer aVoid) {
-            afficherMessage("Nombre de vins = " + aVoid);
+        protected void onPostExecute(String msg) {
+            afficherMessage(msg);
             listeVinFragment.updateListe(GestionCave.getInstance().getListeVins());
         }
     }

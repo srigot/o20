@@ -8,10 +8,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.rigot.macavealpha.metier.GestionCave;
-import com.rigot.macavealpha.metier.Vin;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import fr.rigot.cavavin.backend.vins.model.Vin;
 
 
 public class DetailVinActivity extends Activity {

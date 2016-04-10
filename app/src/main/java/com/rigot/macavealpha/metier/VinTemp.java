@@ -8,7 +8,7 @@ import com.rigot.macavealpha.ref.RefCouleur;
 /**
  * Created by Seb on 08/11/13.
  */
-public class Vin {
+public class VinTemp {
     // private static final long serialVersionUID = 7101726081661909729L;
 
 //    private ArrayList<Bouteille> listeBouteilles = new ArrayList<Bouteille>();
@@ -31,13 +31,13 @@ public class Vin {
     private RefAppellation appellation;
 
 
-    public Vin(String nom, RefAppellation appellation) {
+    public VinTemp(String nom, RefAppellation appellation) {
         this.nom = nom;
         this.appellation = appellation;
 
     }
 
-    public Vin() {
+    public VinTemp() {
 
     }
 

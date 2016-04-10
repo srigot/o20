@@ -1,9 +1,12 @@
 package com.rigot.macavealpha.metier;
 
-import com.rigot.macavealpha.ws.VinController;
+import com.rigot.macavealpha.ws.VinEndpointCall;
 import com.rigot.macavealpha.ws.WebServiceException;
 
+import java.io.IOException;
 import java.util.List;
+
+import fr.rigot.cavavin.backend.vins.model.Vin;
 
 //import com.rigot.macavealpha.parser.CaveParser;
 
@@ -18,7 +21,7 @@ public class GestionCave {
     /**
      * Liste des vins
      */
-    private Cave cave = null;
+    private List<Vin> listeVins = null;
 
     private GestionCave() {
     }
@@ -33,15 +36,11 @@ public class GestionCave {
     }
 
     public List<Vin> getListeVins() {
-        return (cave == null) ? null : cave.getListeVin();
+        return listeVins;
     }
 
     public void AjouterVin(Vin v) throws WebServiceException {
-        // Enregistrer le vin
-        VinController vinController = new VinController();
-        vinController.createVin(v);
-        cave.addVin(v);
-        vinController.updateCave(cave);
+        // TODO Enregistrer le vin
     }
 
     public void ModifierVin(Vin v) {
@@ -49,17 +48,15 @@ public class GestionCave {
         // bd.ModifierVin(v);
     }
 
-    public void ChargerCave() {
-//        VinController vinController = new VinController();
-        VinController vinController = new VinController();
-        cave = vinController.getAllVins();
+    public void ChargerCave() throws IOException {
+        listeVins = new VinEndpointCall().getAll();
     }
 
     public Vin getVinPosition(int idVin) {
         Vin retour = null;
-        if (cave != null) {
-            if (idVin >= 0 && idVin < cave.getListeVin().size()) {
-                retour = cave.getListeVin().get(idVin);
+        if (listeVins != null) {
+            if (idVin >= 0 && idVin < getListeVins().size()) {
+                retour = getListeVins().get(idVin);
             }
         }
         return retour;

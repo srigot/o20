@@ -11,10 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rigot.macavealpha.metier.GestionCave;
-import com.rigot.macavealpha.metier.Vin;
 import com.rigot.macavealpha.util.RecyclerItemClickListener;
 
 import java.util.List;
+
+import fr.rigot.cavavin.backend.vins.model.Vin;
 
 /**
  * Auteur : Seb

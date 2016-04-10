@@ -15,7 +15,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.rigot.macavealpha.metier.GestionCave;
-import com.rigot.macavealpha.metier.Vin;
 import com.rigot.macavealpha.ref.RefAppellation;
 import com.rigot.macavealpha.ref.RefCategorie;
 import com.rigot.macavealpha.ref.RefCouleur;
@@ -25,6 +24,7 @@ import com.rigot.macavealpha.ws.WebServiceException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fr.rigot.cavavin.backend.vins.model.Vin;
 
 
 public class ModifyVinActivity extends Activity {
@@ -102,9 +102,12 @@ public class ModifyVinActivity extends Activity {
         if (vin != null) {
             etNom.setText(vin.getNom());
             etAnnee.setText(vin.getAnnee().toString());
-            spAppellation.setSelection(appellationAdapter.getPosition(vin.getAppellation()));
-            spCategorie.setSelection(categorieAdapter.getPosition(vin.getCategorie()));
-            spCouleur.setSelection(couleurAdapter.getPosition(vin.getCouleur()));
+            spAppellation.setSelection(appellationAdapter.getPosition(
+                    RefAppellation.valueOf(vin.getAppellation())));
+            spCategorie.setSelection(categorieAdapter.getPosition(
+                    RefCategorie.valueOf(vin.getCategorie())));
+            spCouleur.setSelection(couleurAdapter.getPosition(
+                    RefCouleur.valueOf(vin.getCouleur())));
             rbNote.setRating(vin.getNote());
             etDebutBoire.setText(StringUtil.integerToString(vin.getDebutBoire()));
             etFinBoire.setText(StringUtil.integerToString(vin.getFinBoire()));
@@ -150,9 +153,9 @@ public class ModifyVinActivity extends Activity {
 
         vin.setNom(etNom.getText().toString());
         vin.setAnnee(StringUtil.StringToInteger(etAnnee.getText().toString()));
-        vin.setAppellation((RefAppellation) spAppellation.getSelectedItem());
-        vin.setCategorie((RefCategorie) spCategorie.getSelectedItem());
-        vin.setCouleur((RefCouleur) spCouleur.getSelectedItem());
+        vin.setAppellation(spAppellation.getSelectedItem().toString());
+        vin.setCategorie(spCategorie.getSelectedItem().toString());
+        vin.setCouleur(spCouleur.getSelectedItem().toString());
         vin.setEstimation(null);
         vin.setNote(rbNote.getRating());
         vin.setCepage(null);

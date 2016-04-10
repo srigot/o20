@@ -1,5 +1,7 @@
 package com.rigot.macavealpha.metier;
 
+import fr.rigot.cavavin.backend.vins.model.Vin;
+
 /**
  * Created by Seb on 11/11/13.
  */

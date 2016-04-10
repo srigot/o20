@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.rigot.macavealpha.metier.Vin;
+import com.rigot.macavealpha.ref.RefCouleur;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.rigot.cavavin.backend.vins.model.Vin;
 
 /**
  * Created by Seb on 08/11/13.
@@ -55,7 +57,7 @@ public class VinAdapter extends RecyclerView.Adapter<VinAdapter.ViewHolder> {
                 viewHolder.annee.setText(v.getAnnee().toString());
             }
             if (v.getCouleur() != null) {
-                viewHolder.couleur.setBackgroundResource(v.getCouleur().getCouleur());
+                viewHolder.couleur.setBackgroundResource(RefCouleur.valueOf(v.getCouleur()).getCouleur());
             }
         }
     }
