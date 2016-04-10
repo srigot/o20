@@ -64,4 +64,9 @@ public class ListeVinFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onResume() {
+
+        super.onResume();
+    }
 }

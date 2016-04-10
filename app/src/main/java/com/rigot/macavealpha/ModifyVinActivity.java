@@ -19,7 +19,8 @@ import com.rigot.macavealpha.ref.RefAppellation;
 import com.rigot.macavealpha.ref.RefCategorie;
 import com.rigot.macavealpha.ref.RefCouleur;
 import com.rigot.macavealpha.util.StringUtil;
-import com.rigot.macavealpha.ws.WebServiceException;
+
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -153,9 +154,9 @@ public class ModifyVinActivity extends Activity {
 
         vin.setNom(etNom.getText().toString());
         vin.setAnnee(StringUtil.StringToInteger(etAnnee.getText().toString()));
-        vin.setAppellation(spAppellation.getSelectedItem().toString());
-        vin.setCategorie(spCategorie.getSelectedItem().toString());
-        vin.setCouleur(spCouleur.getSelectedItem().toString());
+        vin.setAppellation(((RefAppellation) spAppellation.getSelectedItem()).name());
+        vin.setCategorie(((RefCategorie) spCategorie.getSelectedItem()).name());
+        vin.setCouleur(((RefCouleur) spCouleur.getSelectedItem()).name());
         vin.setEstimation(null);
         vin.setNote(rbNote.getRating());
         vin.setCepage(null);
@@ -172,6 +173,11 @@ public class ModifyVinActivity extends Activity {
         Toast.makeText(ModifyVinActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
+    public void finishOK() {
+        this.setResult(RESULT_OK);
+        finish();
+    }
+
     private class ValiderTask extends AsyncTask<Vin, Void, String> {
 
         @Override
@@ -183,7 +189,7 @@ public class ModifyVinActivity extends Activity {
                 } else {
                     GestionCave.getInstance().ModifierVin(vin);
                 }
-            } catch (WebServiceException e) {
+            } catch (IOException e) {
                 retour = e.getMessage();
                 if (retour == null) {
                     retour = "Erreur inconnue";
@@ -195,7 +201,7 @@ public class ModifyVinActivity extends Activity {
         @Override
         protected void onPostExecute(String msg) {
             if (msg == null) {
-                finish();
+                finishOK();
             } else {
                 afficherMessage(msg);
             }

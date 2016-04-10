@@ -1,22 +1,18 @@
 package com.rigot.macavealpha.metier;
 
 import com.rigot.macavealpha.ws.VinEndpointCall;
-import com.rigot.macavealpha.ws.WebServiceException;
 
 import java.io.IOException;
 import java.util.List;
 
 import fr.rigot.cavavin.backend.vins.model.Vin;
 
-//import com.rigot.macavealpha.parser.CaveParser;
-
 /**
- * Created by Seb on 08/11/13.
+ * Auteur : Seb
+ * Date de creation : 08/11/13.
  */
 public class GestionCave {
     private static GestionCave ourInstance = new GestionCave();
-
-//    private GestionCaveBdd bd = null;
 
     /**
      * Liste des vins
@@ -39,13 +35,13 @@ public class GestionCave {
         return listeVins;
     }
 
-    public void AjouterVin(Vin v) throws WebServiceException {
-        // TODO Enregistrer le vin
+    public void AjouterVin(Vin v) throws IOException {
+        new VinEndpointCall().addVin(v);
+        getListeVins().add(v);
     }
 
-    public void ModifierVin(Vin v) {
-        // TODO Enregistrer le vin
-        // bd.ModifierVin(v);
+    public void ModifierVin(Vin v) throws IOException {
+        new VinEndpointCall().modifierVin(v);
     }
 
     public void ChargerCave() throws IOException {

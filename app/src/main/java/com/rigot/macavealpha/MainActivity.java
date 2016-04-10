@@ -28,6 +28,7 @@ import butterknife.OnClick;
  * Classe principale de l'application
  */
 public class MainActivity extends AppCompatActivity {
+    public static final int REQUEST_CODE_MODIFY_VIN = 1;
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @Bind(R.id.content)
@@ -92,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -107,7 +107,16 @@ public class MainActivity extends AppCompatActivity {
     public void onClickFabAjouter(View v) {
         // Lancer l'activite "Detail Vin"
         Intent intent = new Intent(this, ModifyVinActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_MODIFY_VIN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_MODIFY_VIN) {
+            if (resultCode == RESULT_OK) {
+                listeVinFragment.updateListe(GestionCave.getInstance().getListeVins());
+            }
+        }
     }
 
     public void afficherMessage(String message) {

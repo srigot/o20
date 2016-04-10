@@ -12,7 +12,8 @@ import fr.rigot.cavavin.backend.vins.model.Vin;
 import fr.rigot.cavavin.backend.vins.model.VinCollection;
 
 /**
- * Created by a145426 on 10/04/2016.
+ * Auteur : a145426
+ * Date de creation : 10/04/2016.
  */
 public class VinEndpointCall {
     private static Vins vinsService = null;
@@ -60,12 +61,22 @@ public class VinEndpointCall {
     }
 
     /**
-     * Ajout/Modification d'un vin en base
+     * Ajout d'un vin en base
      *
-     * @param v le vin a ajouter/modifier
+     * @param v le vin a ajouter
      * @throws IOException Exception en cas d'erreur de connexion
      */
     public void addVin(Vin v) throws IOException {
-        vinsService.addVin(v);
+        vinsService.addVin(v).execute();
+    }
+
+    /**
+     * Modification d'un vin en base
+     *
+     * @param v le vin a modifier
+     * @throws IOException Exception en cas d'erreur de connexion
+     */
+    public void modifierVin(Vin v) throws IOException {
+        vinsService.modifyVin(v).execute();
     }
 }

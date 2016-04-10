@@ -51,8 +51,12 @@ public class DetailVinActivity extends Activity {
     private void chargerVin() {
         if (vin != null) {
             tvNom.setText(vin.getNom());
-            tvAnnee.setText(vin.getAnnee().toString());
-            tvCouleur.setText(vin.getCouleur().toString());
+            if (vin.getAnnee() != null) {
+                tvAnnee.setText(vin.getAnnee());
+            }
+            if (vin.getCouleur() != null) {
+                tvCouleur.setText(vin.getCouleur());
+            }
         }
     }
 
