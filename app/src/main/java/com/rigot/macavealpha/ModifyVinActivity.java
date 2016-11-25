@@ -1,12 +1,13 @@
 package com.rigot.macavealpha;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -28,7 +29,7 @@ import butterknife.OnClick;
 import fr.rigot.cavavin.backend.vins.model.Vin;
 
 
-public class ModifyVinActivity extends Activity {
+public class ModifyVinActivity extends AppCompatActivity {
     public static final String ID = "com.rigot.macavealpha.IDENTIFIANT";
 
     private static final int ID_UNKNOWN = -1;
@@ -72,11 +73,21 @@ public class ModifyVinActivity extends Activity {
 
         ButterKnife.bind(this);
 
+        init_toolbar();
         init_spinnerAppellation();
         init_spinnerCategorie();
         init_spinnerCouleur();
 
         chargerVin();
+    }
+
+    private void init_toolbar() {
+        final ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_dehaze_white_24dp);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void init_spinnerCouleur() {

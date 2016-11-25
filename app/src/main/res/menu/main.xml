@@ -3,7 +3,8 @@
     tools:context=".MainActivity">
     <item
         android:id="@+id/action_ajouter"
-        android:showAsAction="withText|ifRoom"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:showAsAction="ifRoom"
         android:title="@string/ajouter" />
     <item
         android:id="@+id/action_settings"
