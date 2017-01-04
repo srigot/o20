@@ -1,2 +1,5 @@
 # Language setting
 language: java
+
+after_script:
+    - cp -r build/test-results/* shippable/testresults/
