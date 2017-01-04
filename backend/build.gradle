@@ -43,3 +43,7 @@ appengine {
         getDiscoveryDocsOnBuild = true
     }
 }
+
+test {
+    testLogging.showStandardStreams = true   
+}
