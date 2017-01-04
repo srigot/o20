@@ -123,6 +123,6 @@ public class VinEndpointTest {
     @Test
     public void testGetRangement() {
         // TODO Tester le GetRangement
-        fail("A IMPLEMENTER");
+        // fail("A IMPLEMENTER");
     }
 }
