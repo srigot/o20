@@ -1,5 +1,8 @@
 # Language setting
 language: java
 
+before_script:
+    - mkdir -p shippable/testresults
+    
 after_script:
     - cp -r build/test-results/* shippable/testresults/
