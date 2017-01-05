@@ -44,6 +44,3 @@ appengine {
     }
 }
 
-test {
-    testLogging.showStandardStreams = true   
-}
