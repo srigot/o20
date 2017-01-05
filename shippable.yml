@@ -2,4 +2,4 @@
 language: java
     
 after_script:
-    - find .
+    - cp -r backend/build/test-results/* shippable/testresults/
