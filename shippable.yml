@@ -3,3 +3,4 @@ language: java
     
 after_script:
     - cp -r backend/build/test-results/* shippable/testresults/
+    - cp -r backend/build/reports/* shippable/codecoverage
