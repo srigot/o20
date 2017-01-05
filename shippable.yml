@@ -2,4 +2,4 @@
 language: java
     
 after_script:
-    - find build
+    - find .
