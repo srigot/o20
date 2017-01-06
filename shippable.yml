@@ -7,6 +7,6 @@ env:
 
 after_script:
     - cp -r backend/build/test-results/* shippable/testresults/
-    - supress=$(echo $SERVICE_ACCOUNT_KEY > /tmp/key.json)
+#    - supress=$(echo $SERVICE_ACCOUNT_KEY > /tmp/key.json)
     - gcloud -q auth activate-service-account --verbosity=debug --key-file /tmp/key.json
     - gradle appengineDeploy
