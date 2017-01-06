@@ -3,6 +3,4 @@ language: java
     
 after_script:
     - cp -r backend/build/test-results/* shippable/testresults/
-    
-on_success:
     - gradle appengineUpdate
