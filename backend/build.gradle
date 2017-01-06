@@ -6,7 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.google.cloud.tools:appengine-gradle-plugin:1.0.0'
+        classpath 'com.google.appengine:gradle-appengine-plugin:1.9.18'
     }
 }
 
@@ -16,12 +16,13 @@ repositories {
 
 apply plugin: 'java'
 apply plugin: 'war'
-apply plugin: 'com.google.cloud.tools.appengine'
+apply plugin: 'appengine'
 
 sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
+    appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.31'
     compile 'com.google.appengine:appengine-endpoints:1.9.31'
     compile 'com.google.appengine:appengine-endpoints-deps:1.9.31'
     compile 'javax.servlet:servlet-api:2.5'
@@ -36,13 +37,11 @@ appengine {
     downloadSdk = true
     appcfg {
         //oauth2 = true
-        //password = 
         email = 'sebastien.rigot@gmail.com'
-        passIn = true
+        password = GAE_PASSWORD
     }
     endpoints {
         getClientLibsOnBuild = true
         getDiscoveryDocsOnBuild = true
     }
 }
-
