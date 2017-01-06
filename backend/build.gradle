@@ -37,7 +37,9 @@ appengine {
     downloadSdk = true
     appcfg {
         //oauth2 = true
-        password = $GAE_PASSWORD
+        //password = 
+        email = sebastien.rigot@gmail.com
+        passin = true
     }
     endpoints {
         getClientLibsOnBuild = true
