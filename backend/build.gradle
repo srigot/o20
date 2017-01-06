@@ -38,8 +38,8 @@ appengine {
     appcfg {
         //oauth2 = true
         //password = 
-        email = sebastien.rigot@gmail.com
-        passin = true
+        email = 'sebastien.rigot@gmail.com'
+        passIn = true
     }
     endpoints {
         getClientLibsOnBuild = true
