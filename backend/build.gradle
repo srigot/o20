@@ -36,7 +36,8 @@ dependencies {
 appengine {
     downloadSdk = true
     appcfg {
-        oauth2 = true
+        //oauth2 = true
+        password = $GEA_PASSWORD
     }
     endpoints {
         getClientLibsOnBuild = true
