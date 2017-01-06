@@ -1,6 +1,10 @@
 # Language setting
 language: java
-    
+
+env:
+    global:
+        - secure: TwVt84BlFC2tt6X08pcwMX76UPCBZy3XkmrqHTghSKQpdVi1cH6ny0pqzekOq0BIjU45wIoTg+5jsf21/KHx1AfUMrlVOJdeIuG6XbgBJU/wWeHOHO/ze2iIpggi4ZBfG9w/+exe6fVIN2gocpCyG/rrgo7+Ws7xHsBIniZgJ9UwBkIE0/rRJoWJOG/ZhDO5WI6591VcALAe5nkVLf3jOGifUkSHCKFWp52UIrEd3gytWUe2r7tTgxaCvQznJWVHiqcB5k2sfzMNRh+ca/whkAP6ihGU+s6dLy59Tjiz/m8jUbWRxncbNxbWbaqZtzhf3RVREW6NqHnJZM/BUaN7BA==
+        
 after_script:
     - cp -r backend/build/test-results/* shippable/testresults/
     - gradle appengineUpdate
