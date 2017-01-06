@@ -38,7 +38,7 @@ appengine {
     appcfg {
         //oauth2 = true
         email = 'sebastien.rigot@gmail.com'
-        password = GAE_PASSWORD
+        password = "$System.env.GAE_PASSWORD"
     }
     endpoints {
         getClientLibsOnBuild = true
