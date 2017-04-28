@@ -36,9 +36,8 @@ dependencies {
 appengine {
     downloadSdk = true
     appcfg {
-        //oauth2 = true
+        passIn = true
         email = 'sebastien.rigot@gmail.com'
-        password = "$System.env.GAE_PASSWORD"
     }
     endpoints {
         getClientLibsOnBuild = true
