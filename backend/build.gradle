@@ -39,6 +39,9 @@ appengine {
         email = 'sebastien.rigot@gmail.com'
         extraOptions = ["--service_account_json_key_file=./gae.json"]
     }
+    app {
+        id = apicaveavin
+    }
     endpoints {
         getClientLibsOnBuild = true
         getDiscoveryDocsOnBuild = true
