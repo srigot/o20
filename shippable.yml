@@ -8,4 +8,4 @@ env:
 
 after_script:
     - cp -r backend/build/test-results/* shippable/testresults/
-    - gradle appengineUpdate
+    - gradle -PappenginePassword=$GAE_PASSWORD appengineUpdate
