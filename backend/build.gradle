@@ -36,8 +36,8 @@ dependencies {
 appengine {
     downloadSdk = true
     appcfg {
-        passIn = true
         email = 'sebastien.rigot@gmail.com'
+        extraOptions = ["--service_account_json_key_file=./gae.json"]
     }
     endpoints {
         getClientLibsOnBuild = true
