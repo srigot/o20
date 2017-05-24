@@ -88,7 +88,7 @@ public class VinEndpoint {
             httpMethod = ApiMethod.HttpMethod.DELETE)
     public void supprimerVin(Vin v) throws BadRequestException {
         if (null == v.getId()) {
-            throw new BadRequestException("");
+            throw new BadRequestException("ID non renseigne");
         }
         ofy().delete().entity(v).now();
     }
